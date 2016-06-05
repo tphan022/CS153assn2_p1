@@ -640,3 +640,18 @@ void tsleep(void){
     release(&ptable.lock);
 
 }
+
+void thread_yield(void) {
+  acquire(&ptable.lock);
+  if(proc->isthread != 1) {
+    cprintf("Error: Thread yield failed.\n");
+  }
+  else {
+    cprintf("The thread has yielded.\n");
+    proc->state = RUNNABLE;
+    sched();
+  }
+release(&ptable.lock);
+}
+
+
